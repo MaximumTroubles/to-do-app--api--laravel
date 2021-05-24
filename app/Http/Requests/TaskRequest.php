@@ -11,9 +11,9 @@ class TaskRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,6 +25,15 @@ class TaskRequest extends FormRequest
     {
         return [
             'name' => 'required|min:3',
+            'description' => 'required|min:3',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'A title is required',
+            'description.required' => 'A message is required',
         ];
     }
 }

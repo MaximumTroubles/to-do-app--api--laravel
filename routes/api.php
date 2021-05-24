@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Task\TaskController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('task')->group(function () {
+    Route::get('/index' , [TaskController::class, 'index']);
+    Route::post('/save' , [TaskController::class, 'store']);
+    Route::put('/update/{id}' , [TaskController::class, 'update']);
+    Route::delete('/delete/{id}' , [TaskController::class, 'destroy']);
 });
