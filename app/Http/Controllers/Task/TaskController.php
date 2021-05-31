@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Task;
 
+use App\Dto\TaskDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
@@ -36,6 +37,17 @@ class TaskController extends Controller
 
     }
 
+    public function taskDone(): JsonResponse
+    {
+        $taskDone = $this->taskService->taskDone();
+
+        return response()
+            ->json(
+              TaskResource::collection($taskDone),
+              Response::HTTP_OK
+            );
+    }
+
     /**
      * Store a newly created resource in storage.
      *->
@@ -44,7 +56,13 @@ class TaskController extends Controller
      */
     public function store(TaskRequest $request): JsonResponse
     {
-        $storedTask = $this->taskService->save($request);
+        $dto = new TaskDto(
+            $request->getName(),
+            $request->getDescription(),
+            $request->getStatus()
+        );
+        $storedTask = $this->taskService->save($dto);
+
         return response()
             ->json(
                 TaskResource::make($storedTask),
@@ -61,7 +79,13 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, int $id): JsonResponse
     {
-        $updated = $this->taskService->update($request, $id);
+        $dto = new TaskDto(
+            $request->getName(),
+            $request->getDescription(),
+            $request->getStatus()
+        );
+        $updated = $this->taskService->update($dto, $id);
+
         return response()
             ->json(
                 TaskResource::make($updated),

@@ -2,8 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Http\Requests\TaskRequest;
-use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -12,7 +10,7 @@ class TaskRepository implements TaskRepositoryInterface
 {
     public function getAll(): Collection
     {
-        return  Task::all();
+        return Task::all();
     }
 
     public function taskDone(): Collection
@@ -20,25 +18,42 @@ class TaskRepository implements TaskRepositoryInterface
         return Task::all()->where('status', 'done');
     }
 
-    public function save(TaskRequest $request): Task
+    public function save(string $name, string $description, string $status): Task
     {
         $task = new Task();
-        $task->name = $request->name;
-        $task->description = $request->description;
+        $task->name = $name;
+        $task->description = $description;
+        $task->status = $status;
         $task->save();
+
         return $task;
     }
 
-    public function update(UpdateTaskRequest $request, $id): Task
+    /**
+     * @param string $name
+     * @param string $description
+     * @param string $status
+     * @param $id
+     * @return Task
+     */
+    public function update(string $name, string $description, string $status, $id): Task
     {
-        $task = Task::findOrFail($id);
-        $task->update($request->all());
+        /** @var Task $task */
+        $task = Task::query()->findOrFail($id);
+        $task->update(
+            [
+                $task->name = $name,
+                $task->description = $description,
+                $task->status = $status
+            ]
+        );
+
         return $task;
     }
 
     public function delete($id): void
     {
-        $deletedTask = Task::findOrFail($id);
+        $deletedTask = Task::query()->findOrFail($id);
         $deletedTask->delete();
     }
 }

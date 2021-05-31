@@ -2,8 +2,7 @@
 
 namespace App\Services\Interfaces;
 
-use App\Http\Requests\TaskRequest;
-use App\Http\Requests\UpdateTaskRequest;
+use App\Dto\TaskDto;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -13,9 +12,9 @@ interface TaskServiceInterface
 
     public function taskDone(): Collection;
 
-    public function save(TaskRequest $request): Task;
+    public function save(TaskDto $dto): Task;
 
-    public function update(UpdateTaskRequest $request, $id): Task;
+    public function update(TaskDto $dto, $id): Task;
 
     public function delete($id): void;
 }

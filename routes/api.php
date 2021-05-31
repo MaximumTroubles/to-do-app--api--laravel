@@ -14,8 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::prefix('task')->group(function () {
-    Route::get('/index' , [TaskController::class, 'index']);
-    Route::post('/save' , [TaskController::class, 'store']);
-    Route::put('/update/{id}' , [TaskController::class, 'update']);
-    Route::delete('/delete/{id}' , [TaskController::class, 'destroy']);
+    Route::get('/' , [TaskController::class, 'index']);
+    Route::get('/done' , [TaskController::class, 'taskDone']);
+    Route::post('/' , [TaskController::class, 'store']);
+    Route::put('/{id}' , [TaskController::class, 'update']);
+    Route::delete('/{id}' , [TaskController::class, 'destroy']);
 });

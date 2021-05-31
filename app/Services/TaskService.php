@@ -2,8 +2,7 @@
 
 namespace App\Services;
 
-use App\Http\Requests\TaskRequest;
-use App\Http\Requests\UpdateTaskRequest;
+use App\Dto\TaskDto;
 use App\Models\Task;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
 use App\Services\Interfaces\TaskServiceInterface;
@@ -28,14 +27,22 @@ class TaskService implements TaskServiceInterface
         return $this->taskRepository->taskDone();
     }
 
-    public function save(TaskRequest $request) : Task
+    public function save(TaskDto $dto): Task
     {
-        return $this->taskRepository->save($request);
+        return $this->taskRepository->save(
+            $dto->getName(),
+            $dto->getDescription(),
+            $dto->getStatus()
+        );
     }
 
-    public function update(UpdateTaskRequest $request, $id): Task
+    public function update(TaskDto $dto, $id): Task
     {
-        return $this->taskRepository->update($request, $id);
+        return $this->taskRepository->update(
+            $dto->getName(),
+            $dto->getDescription(),
+            $dto->getStatus(),
+            $id);
     }
 
     public function delete($id): void
