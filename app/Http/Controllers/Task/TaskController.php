@@ -34,7 +34,6 @@ class TaskController extends Controller
                 TaskResource::collection($tasksDone),
                 Response::HTTP_OK
             );
-
     }
 
     public function taskDone(): JsonResponse

@@ -20,3 +20,7 @@ Route::prefix('task')->group(function () {
     Route::put('/{id}' , [TaskController::class, 'update']);
     Route::delete('/{id}' , [TaskController::class, 'destroy']);
 });
+
+Route::get('/beta', function (){
+   return response('beta');
+});

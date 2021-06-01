@@ -6,7 +6,7 @@ use App\Dto\TaskDto;
 use App\Models\Task;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
 use App\Services\Interfaces\TaskServiceInterface;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 class TaskService implements TaskServiceInterface
 {
@@ -24,7 +24,13 @@ class TaskService implements TaskServiceInterface
 
     public function taskDone(): Collection
     {
-        return $this->taskRepository->taskDone();
+        $taskDoneCollection = $this->taskRepository->taskDone();
+            if ( $taskDoneCollection->count() >= 1 ){
+                var_dump($taskDoneCollection->count());
+                return $taskDoneCollection;
+            }
+
+        return $taskDoneCollection;
     }
 
     public function save(TaskDto $dto): Task
