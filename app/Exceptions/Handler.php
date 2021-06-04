@@ -2,13 +2,17 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use JsonResponseTrait;
     /**
      * A list of the exception types that are not reported.
      *
@@ -42,23 +46,28 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param Throwable $e
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
+     * @return JsonResponse|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
      * @throws Throwable
      */
-    public function render($request, Throwable $e)
+    public function render($request, Throwable $e): JsonResponse
     {
-        if ($e instanceof ValidationException) {
-            $statusCode = $e->status;
-        } else {
-            $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR;
-        }
+        switch ($e) {
+            case $e instanceof ModelNotFoundException:
+                return $this->getModelJsonResponceException();
 
-        return response()->json([
-            'data' => [
-                'message' => $e->getMessage(),
-            ]
-        ], $statusCode);
+            case $e instanceof NotFoundHttpException:
+                return $this->getHttpJsonResponceExeption();
+
+            case $e instanceof ValidationException:
+                return $this->getValidationJsonResponceExeption($e);
+
+            case $e instanceof TaskException:
+                return $e->taskUpdateStatus();
+
+            default:
+                return $this->getBadRequestJsonResponceExeption($e);
+        }
     }
 }

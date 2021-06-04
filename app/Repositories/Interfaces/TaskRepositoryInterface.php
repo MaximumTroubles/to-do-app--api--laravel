@@ -11,6 +11,8 @@ interface TaskRepositoryInterface
 
     public function taskDone(): Collection;
 
+    public function checkTaskStatus($id): Task;
+
     public function save(string $name, string $description, string $status): Task;
 
     public function update(string $name, string $description, string $status, $id): Task;

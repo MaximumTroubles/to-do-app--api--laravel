@@ -27,11 +27,10 @@ class TaskResource extends JsonResource
     {
         return
             [
-                'task id '.$this->id => [
-                    'name' => $this->name,
-                    'description' => $this->description,
-                    'status' => $this->status,
-                ]
+                'id' => $this->id,
+                'name' => $this->name,
+                'description' => $this->description,
+                'status' => $this->status,
             ];
     }
 }

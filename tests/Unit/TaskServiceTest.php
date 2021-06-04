@@ -69,10 +69,10 @@ class TaskServiceTest extends TestCase
 
     public function test_that_tasks_updatings(): void
     {
-        $dto = new TaskDto('task','desc', 'done');
+        $dto = new TaskDto('task','desc', 'todo');
 
         $this->taskRepository
-            ->shouldReceive('update')
+            ->shouldReceive('update','checkTaskStatus')
             ->once()
             ->andReturn(
                 new Task(
@@ -84,7 +84,7 @@ class TaskServiceTest extends TestCase
                 )
             );
 
-        $id = rand(1, 20); //TODO ASK! how to use variable id num instead of hardcoded!!!
+        $id = 1;
         $result = $this->taskService->update($dto, $id);
 
         $this->assertInstanceOf(Task::class, $result);
@@ -96,7 +96,8 @@ class TaskServiceTest extends TestCase
     public function test_task_deleting(): void
     {
         $this->expectNotToPerformAssertions();
-        $id = rand(1, 20); ;
+        $id = 1;
+        $this->taskRepository->shouldReceive('checkTaskStatus')->with($id)->once()->andReturn(new Task(['status' => 'in_progress']));
         $this->taskRepository->shouldReceive('delete')->once()->with($id);
         $this->taskService->delete($id);
     }

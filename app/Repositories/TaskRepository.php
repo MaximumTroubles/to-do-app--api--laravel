@@ -36,6 +36,12 @@ class TaskRepository implements TaskRepositoryInterface
      * @param $id
      * @return Task
      */
+
+    public function checkTaskStatus($id): Task
+    {
+        return Task::findOrFail($id);
+    }
+
     public function update(string $name, string $description, string $status, $id): Task
     {
         /** @var Task $task */
