@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TaskRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,17 +24,19 @@ class TaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:3',
-            'description' => 'required|min:3',
-            'status' => 'required|min:3',
+            'name' => [
+                'required',
+                'min:3',
+                'regex:/^[a-z]+$/i',
+            ],
+            'password' => 'required|min:3|max:8',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required' => 'A title is required',
-            'description.required' => 'A message is required',
+        'name.regex' => 'Name must be with out numbers',
         ];
     }
 
@@ -43,18 +45,8 @@ class TaskRequest extends FormRequest
         return $this->input('name');
     }
 
-    public function getDescription(): string
+    public function getPassword(): string
     {
-        return $this->input('description');
-    }
-
-    public function getStatus(): string
-    {
-        return $this->input('status');
-    }
-
-    public function getUserId(): int
-    {
-        return $this->input('user_id');
+        return $this->input('password');
     }
 }

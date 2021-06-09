@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Http\Response;
 use \Illuminate\Http\JsonResponse;
+use Illuminate\Validation\ValidationException;
 
 trait JsonResponseTrait
 {
@@ -27,14 +28,14 @@ trait JsonResponseTrait
         ], Response::HTTP_NOT_FOUND);
     }
 
-    public function getValidationJsonResponceExeption($e): JsonResponse
+    public function getValidationJsonResponceExeption(ValidationException $e): JsonResponse
     {
         return response()->json([
             'data' => [
                 'message' => $e->errors(),
-                'status_code' => Response::HTTP_UNPROCESSABLE_ENTITY,
+                'status_code' => $e->status,
             ]
-        ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        ], $e->status);
     }
 
     public function getBadRequestJsonResponceExeption($e): JsonResponse

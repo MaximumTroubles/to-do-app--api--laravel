@@ -13,7 +13,7 @@ interface TaskRepositoryInterface
 
     public function checkTaskStatus($id): Task;
 
-    public function save(string $name, string $description, string $status): Task;
+    public function save(string $name, string $description, string $status, int $user_id): Task;
 
     public function update(string $name, string $description, string $status, $id): Task;
 

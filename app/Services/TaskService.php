@@ -41,7 +41,8 @@ class TaskService implements TaskServiceInterface
         return $this->taskRepository->save(
             $dto->getName(),
             $dto->getDescription(),
-            $dto->getStatus()
+            $dto->getStatus(),
+            $dto->getUserId(),
         );
     }
 

@@ -22,10 +22,14 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install zip \
     && docker-php-ext-install bcmath
 
+    RUN pecl install xdebug \
+        && docker-php-ext-enable xdebug
+
 WORKDIR /var/www
 
 RUN mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 RUN chmod 777 /var/log
 COPY conf.ini $PHP_INI_DIR/conf.d/
+COPY xdebug.ini $PHP_INI_DIR/conf.d/
 
 RUN usermod -u 1000 www-data

@@ -31,8 +31,6 @@ services:
       - ${DOCKER_PATH}:/var/www:cached
     tty: true
     stdin_open: true
-    environment:
-      PHP_IDE_CONFIG: "serverName=docker-server-shop"
     networks:
       - shop
     restart: on-failure

@@ -18,12 +18,13 @@ class TaskRepository implements TaskRepositoryInterface
         return Task::all()->where('status', 'done');
     }
 
-    public function save(string $name, string $description, string $status): Task
+    public function save(string $name, string $description, string $status, int $user_id): Task
     {
         $task = new Task();
         $task->name = $name;
         $task->description = $description;
         $task->status = $status;
+        $task->user_id = $user_id;
         $task->save();
 
         return $task;

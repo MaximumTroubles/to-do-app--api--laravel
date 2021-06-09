@@ -26,7 +26,7 @@ class UpdateTaskRequest extends FormRequest
         return [
             'name' => 'required',
             'description' => 'required',
-            'status' => 'required|min:3|max:6',
+            'status' => 'required|min:3|max:6'
         ];
     }
 
@@ -43,5 +43,10 @@ class UpdateTaskRequest extends FormRequest
     public function getStatus(): string
     {
         return $this->input('status');
+    }
+
+    public function getUserId(): int
+    {
+        return $this->input('user_id');
     }
 }

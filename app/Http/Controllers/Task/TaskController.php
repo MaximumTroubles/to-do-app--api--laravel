@@ -58,7 +58,8 @@ class TaskController extends Controller
         $dto = new TaskDto(
             $request->getName(),
             $request->getDescription(),
-            $request->getStatus()
+            $request->getStatus(),
+            $request->getUserId(),
         );
         $storedTask = $this->taskService->save($dto);
 
@@ -81,7 +82,8 @@ class TaskController extends Controller
         $dto = new TaskDto(
             $request->getName(),
             $request->getDescription(),
-            $request->getStatus()
+            $request->getStatus(),
+            $request->getUserId(),
         );
         $updated = $this->taskService->update($dto, $id);
 
